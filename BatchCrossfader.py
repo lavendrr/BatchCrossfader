@@ -1,7 +1,7 @@
 import soundfile as sf
 import numpy as np
 import os
-from glob import glob
+from glob import iglob
 
 equal_power = lambda x: np.sqrt((1/2) * (1 + x))
 
@@ -22,22 +22,36 @@ while valid_response == False:
         print("Please enter L for linear or EP for equal power")
     else:
         valid_response = True
+    
+valid_response = False
+while valid_response == False:
+    in_format = input('Please enter the input file format (e.g. .wav, .mp3, .flac, etc.): ')
+    if in_format.strip('.').upper() not in sf.available_formats().keys():
+        print("Please enter a supported file format - see python-soundfile docs for supported formats (https://python-soundfile.readthedocs.io/en/0.13.1/_modules/soundfile.html#available_formats)")
+    else:
+        valid_response = True
 
 if not os.path.exists('Crossfade Output'):
     os.makedirs('Crossfade Output')
 
-for file in glob('*.wav'):
-    audio, fs = sf.read(file)
+for file in iglob(f'**/*{in_format}', recursive = True):
+    if not file.startswith('Crossfade Output'):
+        if '/' in file:
+            file_directory = file.rpartition('/')[0]
+            if not os.path.exists(f'Crossfade Output/{file_directory}'):
+                os.makedirs(f'Crossfade Output/{file_directory}')
 
-    fade_length_samples = int(fs * fade_length_sec)
+        audio, fs = sf.read(file)
 
-    if mode == 'L':
-        fade = np.linspace(0.0, 1.0, fade_length_samples)
-    elif mode == 'EP':
-        fade = np.apply_along_axis(equal_power, 0, np.linspace(-1.0, 1.0, fade_length_samples))
+        fade_length_samples = int(fs * fade_length_sec)
 
-    output = np.apply_along_axis(xfade_process, 0, audio, fade = fade, fade_length_samples = fade_length_samples)
+        if mode == 'L':
+            fade = np.linspace(0.0, 1.0, fade_length_samples)
+        elif mode == 'EP':
+            fade = np.apply_along_axis(equal_power, 0, np.linspace(-1.0, 1.0, fade_length_samples))
 
-    sf.write(f'Crossfade Output/xfade-{file}', output, fs)
+        output = np.apply_along_axis(xfade_process, 0, audio, fade = fade, fade_length_samples = fade_length_samples)
+
+        sf.write(f'Crossfade Output/{file}', output, fs)
 
 print('Saved files to /Crossfade Output')
