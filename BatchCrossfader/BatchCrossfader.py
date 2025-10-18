@@ -34,10 +34,12 @@ while valid_response == False:
 if not os.path.exists('Crossfade Output'):
     os.makedirs('Crossfade Output')
 
-for file in iglob(f'**/*{in_format}', recursive = True):
-    if not file.startswith('Crossfade Output'):
+for file in iglob(f'../**/*{in_format}', recursive = True):
+    if not file.startswith('../BatchCrossfader/Crossfade Output/'):
+        file_directory, file_name = '', file
         if '/' in file:
-            file_directory = file.rpartition('/')[0]
+            file_directory, *_, file_name = file.rpartition('/')
+            file_directory = file_directory.strip('/..') + '/'
             if not os.path.exists(f'Crossfade Output/{file_directory}'):
                 os.makedirs(f'Crossfade Output/{file_directory}')
 
@@ -52,6 +54,6 @@ for file in iglob(f'**/*{in_format}', recursive = True):
 
         output = np.apply_along_axis(xfade_process, 0, audio, fade = fade, fade_length_samples = fade_length_samples)
 
-        sf.write(f'Crossfade Output/{file}', output, fs)
+        sf.write(f'Crossfade Output/{file_directory}{file_name}', output, fs)
 
 print('Saved files to /Crossfade Output')
