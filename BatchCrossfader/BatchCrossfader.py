@@ -36,6 +36,7 @@ if not os.path.exists('Crossfade Output'):
 
 for file in iglob(f'../**/*{in_format}', recursive = True):
     if 'Crossfade Output' not in file:
+        file = file.replace('\\', '/')
         file_directory, file_name = '', file
         if '/' in file:
             file_directory, *_, file_name = file.rpartition('/')
