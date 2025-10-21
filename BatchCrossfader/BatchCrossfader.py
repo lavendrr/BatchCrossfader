@@ -34,7 +34,11 @@ while valid_response == False:
 if not os.path.exists('Crossfade Output'):
     os.makedirs('Crossfade Output')
 
-for file in iglob(f'../**/*{in_format}', recursive = True):
+exec = False
+
+for file in iglob(f'File Input/*{in_format}', recursive = True):
+    if not exec:
+        exec = True
     if 'Crossfade Output' not in file:
         file = file.replace('\\', '/')
         file_directory, file_name = '', file
@@ -58,4 +62,7 @@ for file in iglob(f'../**/*{in_format}', recursive = True):
         sf.write(f'Crossfade Output/{file_directory}xfade-{file_name}', output, fs)
         print(f'Saved xfade-{file_name} to Crossfade Output/{file_directory}')
 
-print('All done!')
+if not exec:
+    print('No matching files found! \nPlease make sure that all files are located in a folder called \'File Input\' and that you have entered the matching file format')
+else:
+    print('All done!')
