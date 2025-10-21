@@ -17,7 +17,7 @@ fade_length_sec = float(input('Please enter the desired crossfade length in seco
 
 valid_response = False
 while valid_response == False:
-    mode = input('Linear or equal power xfade? (enter L or EP): ')
+    mode = input('Linear or equal power xfade? (enter L or EP): ').upper()
     if mode not in ['L', 'EP']:
         print("Please enter L for linear or EP for equal power")
     else:
