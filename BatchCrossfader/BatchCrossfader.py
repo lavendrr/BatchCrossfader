@@ -55,6 +55,7 @@ for file in iglob(f'../**/*{in_format}', recursive = True):
 
         output = np.apply_along_axis(xfade_process, 0, audio, fade = fade, fade_length_samples = fade_length_samples)
 
-        sf.write(f'Crossfade Output/{file_directory}{file_name}', output, fs)
+        sf.write(f'Crossfade Output/{file_directory}xfade-{file_name}', output, fs)
+        print(f'Saved xfade-{file_name} to Crossfade Output/{file_directory}')
 
-print('Saved files to /Crossfade Output')
+print('All done!')
