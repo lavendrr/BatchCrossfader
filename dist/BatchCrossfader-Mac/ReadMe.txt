@@ -1,4 +1,4 @@
-BatchCrossfader v1.0
+BatchCrossfader v1.1
 Ricardo Moctezuma 2025
 
 ### Overview ###
