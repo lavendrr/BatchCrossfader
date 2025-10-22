@@ -39,7 +39,7 @@ exec = False
 for file in iglob(f'File Input/**/*{in_format}', recursive = True):
     if not exec:
         exec = True
-        
+
     file = file.replace('\\', '/')
     file_directory, file_name = '', file
     if '/' in file:
@@ -49,7 +49,6 @@ for file in iglob(f'File Input/**/*{in_format}', recursive = True):
             os.makedirs(f'Crossfade Output/{file_directory}')
 
     audio, fs = sf.read(file)
-
     fade_length_samples = int(fs * fade_length_sec)
 
     if mode == 'L':
@@ -64,6 +63,6 @@ for file in iglob(f'File Input/**/*{in_format}', recursive = True):
         print(f'Unable to execute for {file_name} due to fade length being too long - ensure that files are at least twice as long as the fade length')
 
 if not exec:
-    print('No matching files found! \nPlease make sure that all files are located in a folder called \'File Input\' and that you have entered the matching file format')
+    print('No matching files found! \nPlease ensure that all files are located in a folder called \'File Input\' and that you have entered the matching file format')
 else:
     print('All done!')
