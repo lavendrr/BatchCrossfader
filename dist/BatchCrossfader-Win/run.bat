@@ -1,5 +1,5 @@
-call .\BatchCrossfaderWin\Scripts\activate.bat
+call .\install\Scripts\activate.bat
 
-python ./BatchCrossfader.py
+python ./install/BatchCrossfader.py
 
-call .\BatchCrossfaderWin\Scripts\deactivate.bat
+call .\install\Scripts\deactivate.bat

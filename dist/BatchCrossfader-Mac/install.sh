@@ -1,14 +1,26 @@
-# Unpack environment into directory `BatchCrossfader`
-mkdir -p BatchCrossfader
-tar -xzf BatchCrossfader.tar.gz -C BatchCrossfader
+echo Welcome to BatchCrossfader v1.1 installation!
 
-# Activate the environment. This adds `BatchCrossfader/bin` to your path
-source BatchCrossfader/bin/activate
+echo Making directories...
+mkdir -p 'install'
+mkdir -p 'File Input'
+mkdir -p 'Crossfade Output'
 
-# Cleanup prefixes from in the active environment.
-# Note that this command can also be run without activating the environment
-# as long as some version of python is already installed on the machine.
+echo Unzipping BatchCrossfader.tar.gz...
+tar -xzf BatchCrossfader.tar.gz -C install
+
+echo Activating Conda environment...
+source install/bin/activate
+
+echo Unpacking Conda environment...
 conda-unpack
 
-# Deactivate the environment to remove it from your path
-source BatchCrossfader/bin/deactivate
+echo Deactivating Conda environment...
+source install/bin/deactivate
+
+Echo Moving BatchCrossfader.py to install folder...
+mv BatchCrossfader.py install
+
+echo Deleting BatchCrossfader.tar.gz...
+rm BatchCrossfader.tar.gz
+echo Deleting install.sh
+rm install.sh & echo Installation complete!

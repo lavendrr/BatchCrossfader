@@ -1,8 +1,25 @@
-md BatchCrossfaderWin
-tar -xzf BatchCrossfaderWin.tar.gz -C BatchCrossfaderWin
+echo Creating directories...
+md "install"
+md "Crossfade Output"
+md "File Input"
 
-call .\BatchCrossfaderWin\Scripts\activate.bat
+echo Unzipping BatchCrossfaderWin.tar.gz...
+tar -xzf BatchCrossfaderWin.tar.gz -C install
 
-call .\BatchCrossfaderWin\Scripts\conda-unpack.exe
+echo Activating Conda environment...
+call .\install\Scripts\activate.bat
 
-call .\BatchCrossfaderWin\Scripts\deactivate.bat
+echo Unpacking Conda environment...
+call .\install\Scripts\conda-unpack.exe
+
+echo Deactivating Conda environment...
+call .\install\Scripts\deactivate.bat
+
+echo Moving BatchCrossfader.py to install folder...
+move BatchCrossfader.py install
+
+echo Deleting BatchCrossfaderWin.tar.gz...
+del BatchCrossfaderWin.tar.gz
+
+echo Deleting install.bat...
+(goto) 2>nul & del "%~f0" & echo Installation complete!
