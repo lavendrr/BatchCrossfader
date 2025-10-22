@@ -39,29 +39,29 @@ exec = False
 for file in iglob(f'File Input/**/*{in_format}', recursive = True):
     if not exec:
         exec = True
-    if 'Crossfade Output' not in file:
-        file = file.replace('\\', '/')
-        file_directory, file_name = '', file
-        if '/' in file:
-            file_directory, *_, file_name = file.rpartition('/')
-            file_directory = file_directory.strip('/..') + '/'
-            if not os.path.exists(f'Crossfade Output/{file_directory}'):
-                os.makedirs(f'Crossfade Output/{file_directory}')
+        
+    file = file.replace('\\', '/')
+    file_directory, file_name = '', file
+    if '/' in file:
+        file_directory, *_, file_name = file.rpartition('/')
+        file_directory = file_directory.strip('/..') + '/'
+        if not os.path.exists(f'Crossfade Output/{file_directory}'):
+            os.makedirs(f'Crossfade Output/{file_directory}')
 
-        audio, fs = sf.read(file)
+    audio, fs = sf.read(file)
 
-        fade_length_samples = int(fs * fade_length_sec)
+    fade_length_samples = int(fs * fade_length_sec)
 
-        if mode == 'L':
-            fade = np.linspace(0.0, 1.0, fade_length_samples)
-        elif mode == 'EP':
-            fade = np.apply_along_axis(equal_power, 0, np.linspace(-1.0, 1.0, fade_length_samples))
-        try:
-            output = np.apply_along_axis(xfade_process, 0, audio, fade = fade, fade_length_samples = fade_length_samples)
-            sf.write(f'Crossfade Output/{file_directory}xfade-{file_name}', output, fs)
-            print(f'Saved xfade-{file_name} to Crossfade Output/{file_directory}')
-        except ValueError:
-            print(f'Unable to execute for {file_name} due to fade length being too long - ensure that files are at least twice as long as the fade length')
+    if mode == 'L':
+        fade = np.linspace(0.0, 1.0, fade_length_samples)
+    elif mode == 'EP':
+        fade = np.apply_along_axis(equal_power, 0, np.linspace(-1.0, 1.0, fade_length_samples))
+    try:
+        output = np.apply_along_axis(xfade_process, 0, audio, fade = fade, fade_length_samples = fade_length_samples)
+        sf.write(f'Crossfade Output/{file_directory}xfade-{file_name}', output, fs)
+        print(f'Saved xfade-{file_name} to Crossfade Output/{file_directory}')
+    except ValueError:
+        print(f'Unable to execute for {file_name} due to fade length being too long - ensure that files are at least twice as long as the fade length')
 
 if not exec:
     print('No matching files found! \nPlease make sure that all files are located in a folder called \'File Input\' and that you have entered the matching file format')
