@@ -41,10 +41,10 @@ for file in iglob(f'File Input/**/*{in_format}', recursive = True):
         exec = True
 
     file = file.replace('\\', '/')
-    file_directory, file_name = '', file
-    if '/' in file:
-        file_directory, *_, file_name = file.rpartition('/')
-        file_directory = file_directory.strip('/..') + '/'
+    file_directory, *_, file_name = file.rpartition('/')
+    file_directory = file_directory.strip('File Input/').strip('/..')
+    if file_directory != '':
+        file_directory += '/'
         if not os.path.exists(f'Crossfade Output/{file_directory}'):
             os.makedirs(f'Crossfade Output/{file_directory}')
 
