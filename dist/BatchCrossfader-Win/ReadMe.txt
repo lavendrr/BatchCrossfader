@@ -7,10 +7,9 @@ BatchCrossfader is a script that crossfades a sound file's end with its beginnin
 
 ### Install ###
 - Download the correct version for your platform from the Releases page and extract it
-- Mac: Open Terminal, navigate to the extracted folder using the `cd` command, and run the install.sh script via the command `./install.sh` (without the `)
-- Windows: Open Command Prompt, navigate to the extracted folder using the `cd` command, and run the install.bat script via the command `call install.bat` (without the `)
-- Once this has finished, you can safely delete the install script and the .tar file if desired
-- To run the script, just call run.sh or run.bat via the command line in the same way you ran the install script
+- Mac: Open Terminal, navigate to the extracted folder using the `cd` command, and run the install.sh script via the command `./install.sh`
+- Windows: Open Terminal, navigate to the extracted folder using the `cd` command, and run the install.bat script via the command `./install.bat`
+- To run the crossfader, just call run.sh or run.bat via the command line in the same way you ran the install script
 
 ### Usage ###
 
